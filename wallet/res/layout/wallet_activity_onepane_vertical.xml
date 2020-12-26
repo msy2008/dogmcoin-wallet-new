@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/bg_level1"
+            android:background="@color/bg_level2"
             android:baselineAligned="false"
             android:elevation="3dp"
             android:orientation="horizontal"

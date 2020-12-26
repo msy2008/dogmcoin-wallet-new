@@ -26,6 +26,6 @@
         android:width="96dp">
 
         <bitmap
-            android:src="@mipmap/ic_app_color_fg_108dp" />
+            android:src="@drawable/ic_app_color" />
     </item>
 </layer-list>

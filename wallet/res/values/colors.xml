@@ -21,7 +21,7 @@
     <!-- background -->
     <color name="bg_level3">#ffffffff</color>
     <color name="bg_level2">#ffdbd2a9</color>
-    <color name="bg_level1">#d2cfc5</color>
+    <color name="bg_level1">#ffeaeaf0</color>
     <color name="bg_level1_darkdefault">#ff1a1e24</color>
     <color name="bg_level0">#ffe0e0e8</color>
     <color name="bg_action_bar">#ff181c22</color>
