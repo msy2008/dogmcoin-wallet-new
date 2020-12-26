@@ -9,4 +9,4 @@ if (GradleVersion.current() < minGradleVersion)
 
 include 'wallet'
 include 'integration-android'
-include 'sample-integration-android'
+//include 'sample-integration-android'

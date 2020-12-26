@@ -3,14 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="de.schildbach.wallet"
-    android:installLocation="internalOnly"
-    android:versionCode="808"
-    android:versionName="8.08">
-
-    <uses-sdk
-        android:minSdkVersion="23"
-        android:targetSdkVersion="29"
-        tools:ignore="OldTargetApi" />
+    android:installLocation="internalOnly">
 
     <!-- normal permissions -->
     <uses-permission android:name="android.permission.INTERNET" />

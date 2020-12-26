@@ -1,3 +1,6 @@
+import groovy.io.FileType
+import groovy.xml.XmlUtil
+
 plugins {
     id 'com.android.application'
     id 'androidsvgdrawable'
@@ -36,18 +39,22 @@ dependencies {
 }
 
 ext {
-    archivesBaseName = 'bitcoin-wallet'
+    archivesBaseName = 'dogecoin-wallet'
 }
 
 android {
-    compileSdkVersion 'android-29'
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 29
 
     defaultConfig {
-        applicationId 'de.schildbach'
+        applicationId 'de.langerhans'
         dexOptions {
             preDexLibraries false
         }
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 400
+        versionName '4.0.0'
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -65,7 +72,7 @@ android {
     productFlavors {
         dev {
             dimension 'flavor'
-            applicationIdSuffix '.wallet_test'
+            applicationIdSuffix '.wallet.test'
         }
         prod {
             dimension 'flavor'
@@ -114,6 +121,7 @@ android {
     }
 }
 
+/*
 task svgToPngMipmap(type: fr.avianey.androidsvgdrawable.gradle.SvgDrawableTask) {
     from = files('graphics/mipmap')
     to = file('res')
@@ -128,4 +136,77 @@ task svgToPngMipmapProd(type: fr.avianey.androidsvgdrawable.gradle.SvgDrawableTa
     targetedDensities = ['xxhdpi', 'xxxhdpi']
     outputFormat = 'PNG'
     outputType = 'mipmap'
+}
+ */
+
+android.applicationVariants.all{ variant ->
+    variant.mergeResources.doFirst{
+        LangUpdater.main(new File("${rootDir}/wallet/res/"))
+    }
+    variant.mergeResources.doLast{
+        new File("${rootDir}/wallet/res/").eachFileRecurse (FileType.DIRECTORIES) { file ->
+            if (file.name.startsWith("values")) {
+                "git restore -s@ -SW -- wallet/res/${file.name}/strings*.xml".execute([], rootDir).waitFor()
+            }
+        }
+    }
+}
+
+class LangUpdater {
+    static def main(File dir) {
+        def list = []
+        dir.eachFileRecurse (FileType.FILES) { file ->
+            list << file
+        }
+        doReplace(list)
+    }
+
+    static def doReplace(ArrayList<File> f) {
+        def toDo = []
+        f.each {
+            if (it.getName().matches("strings.*\\.xml")) {
+                toDo << it
+            }
+        }
+
+        toDo.each {
+            def xml = replaceStrings(it)
+            def writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(it.getAbsolutePath()), "UTF-8"))
+            XmlUtil.serialize(xml, writer)
+            writer.flush()
+            writer.close()
+        }
+    }
+
+    static def replaceStrings(File f) {
+        def resources = new XmlSlurper().parse(f)
+        resources.string.each {
+            it.replaceBody(tryAllReplacements(it.text()))
+        }
+        return resources
+    }
+
+    static def tryAllReplacements(String s) {
+        String res = s
+        // Do some specifics first
+        res = res.replaceAll("bitcoinj", "libdohj")
+        res = res.replaceAll("bitboy", "dogecoin.com")
+
+        // Esperanto specifics
+        res = res.replaceAll("Bitmon", "Dogemon")
+        res = res.replaceAll("bitmon", "dogemon")
+
+        // Japanese specifics
+        res = res.replaceAll("ビット", "ドージ")
+
+        // Chinese specifics
+        res = res.replaceAll("比特", "狗狗")
+
+        // And the rest
+        res = res.replaceAll("BTC", "DOGE")
+        res = res.replaceAll("bitcoin", "dogecoin")
+        res = res.replaceAll("Bitcoin", "Dogecoin")
+
+        return res
+    }
 }
