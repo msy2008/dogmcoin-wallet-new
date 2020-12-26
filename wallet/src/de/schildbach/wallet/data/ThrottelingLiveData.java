@@ -28,7 +28,7 @@ public abstract class ThrottelingLiveData<T> extends LiveData<T> {
     private final long throttleMs;
     private final Handler handler = new Handler();
     private long lastMessageMs;
-    private static final long DEFAULT_THROTTLE_MS = 500;
+    private static final long DEFAULT_THROTTLE_MS = 1000;
 
     public ThrottelingLiveData() {
         this(DEFAULT_THROTTLE_MS);

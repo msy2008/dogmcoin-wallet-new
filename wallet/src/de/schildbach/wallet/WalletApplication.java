@@ -52,6 +52,7 @@ import de.schildbach.wallet.util.WalletUtils;
 import org.bitcoinj.core.VersionMessage;
 import org.bitcoinj.crypto.LinuxSecureRandom;
 import org.bitcoinj.crypto.MnemonicCode;
+import org.bitcoinj.params.Networks;
 import org.bitcoinj.utils.Threading;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
@@ -101,6 +102,8 @@ public class WalletApplication extends Application {
 
         log.info("=== starting app using flavor: {}, build type: {}, network: {}", BuildConfig.FLAVOR,
                 BuildConfig.BUILD_TYPE, Constants.NETWORK_PARAMETERS.getId());
+
+        Networks.register(Constants.NETWORK_PARAMETERS);
 
         super.onCreate();
 

@@ -47,6 +47,7 @@ import de.schildbach.wallet.util.Qr;
 import de.schildbach.wallet.util.Toast;
 import org.bitcoinj.core.Address;
 import org.bitcoinj.core.LegacyAddress;
+import org.bitcoinj.params.AbstractBitcoinNetParams;
 import org.bitcoinj.uri.BitcoinURI;
 import org.bitcoinj.wallet.Wallet;
 import org.slf4j.Logger;
@@ -167,9 +168,9 @@ public final class WalletAddressesFragment extends Fragment implements AddressBo
             final String ownName = viewModel.ownName.getValue();
             final String uri;
             if (address instanceof LegacyAddress || ownName != null)
-                uri = BitcoinURI.convertToBitcoinURI(address, null, ownName, null);
+                uri = BitcoinURI.convertToBitcoinURI(address, null, ownName, null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");
             else
-                uri = address.toString().toUpperCase(Locale.US);
+                uri = address.toString().toUpperCase(Locale.US).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");
             viewModel.showBitmapDialog.setValue(new Event<>(Qr.bitmap(uri)));
             return true;
         } else if (itemId == R.id.wallet_addresses_context_copy_to_clipboard) {

@@ -45,6 +45,7 @@ import de.schildbach.wallet.ui.send.SendCoinsActivity;
 import de.schildbach.wallet.util.Qr;
 import de.schildbach.wallet.util.Toast;
 import org.bitcoinj.core.Address;
+import org.bitcoinj.params.AbstractBitcoinNetParams;
 import org.bitcoinj.uri.BitcoinURI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -151,11 +152,11 @@ public final class SendingAddressesFragment extends Fragment implements AddressB
             return true;
         } else if (itemId == R.id.sending_addresses_context_show_qr) {
             final String uri = BitcoinURI.convertToBitcoinURI(Constants.NETWORK_PARAMETERS,
-                    address.toString(), null, label, null);
+                    address.toString(), null, label, null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");;
             viewModel.showBitmapDialog.setValue(new Event<>(Qr.bitmap(uri)));
             return true;
         } else if (itemId == R.id.sending_addresses_context_copy_to_clipboard) {
-            clipboardManager.setPrimaryClip(ClipData.newPlainText("Bitcoin address", address.toString()));
+            clipboardManager.setPrimaryClip(ClipData.newPlainText("Dogecoin address", address.toString()));
             log.info("sending address copied to clipboard: {}", address);
             new Toast(activity).toast(R.string.wallet_address_fragment_clipboard_msg);
             return true;

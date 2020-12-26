@@ -34,6 +34,7 @@ import org.bitcoinj.core.Address;
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.LegacyAddress;
 import org.bitcoinj.core.Transaction;
+import org.bitcoinj.params.AbstractBitcoinNetParams;
 import org.bitcoinj.uri.BitcoinURI;
 import org.bitcoinj.utils.Threading;
 import org.bitcoinj.wallet.Wallet;
@@ -83,9 +84,9 @@ public class WalletAddressViewModel extends AndroidViewModel {
     private String uri(final Address address, @Nullable final String label) {
         final String addressUri;
         if (address instanceof LegacyAddress || label != null)
-            return BitcoinURI.convertToBitcoinURI(address, null, label, null);
+            return BitcoinURI.convertToBitcoinURI(address, null, label, null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");
         else
-            return address.toString().toUpperCase(Locale.US);
+            return address.toString().toUpperCase(Locale.US).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");
     }
 
     public static class CurrentAddressLiveData extends AbstractWalletLiveData<Address> {

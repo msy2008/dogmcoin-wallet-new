@@ -120,21 +120,21 @@ public final class CurrencyAmountView extends FrameLayout {
         final float textSize = textView.getTextSize();
         final float smallerTextSize = textSize * (20f / 24f);
         final float offset = textSize * 0.37f;
-        if (MonetaryFormat.CODE_BTC.equals(currencyCode)) {
+        if ("DOGE".equals(currencyCode)) {
             if (hasBitcoinSymbol)
                 currencySymbolDrawable = new CurrencySymbolDrawable(bitcoinSymbol, smallerTextSize,
                         lessSignificantColor, offset);
             else
                 currencySymbolDrawable = getContext().getDrawable(R.drawable.currency_symbol_btc);
             localCurrencyCode = null;
-        } else if (MonetaryFormat.CODE_MBTC.equals(currencyCode)) {
+        } else if ("mDOGE".equals(currencyCode)) {
             if (hasBitcoinSymbol)
                 currencySymbolDrawable = new CurrencySymbolDrawable("m" + bitcoinSymbol, smallerTextSize,
                         lessSignificantColor, offset);
             else
                 currencySymbolDrawable = getContext().getDrawable(R.drawable.currency_symbol_mbtc);
             localCurrencyCode = null;
-        } else if (MonetaryFormat.CODE_UBTC.equals(currencyCode)) {
+        } else if ("µDOGE".equals(currencyCode)) {
             if (hasBitcoinSymbol)
                 currencySymbolDrawable = new CurrencySymbolDrawable("µ" + bitcoinSymbol, smallerTextSize,
                         lessSignificantColor, offset);

@@ -77,7 +77,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-                <data android:mimeType="application/x-btctx" />
+                <data android:mimeType="application/x-dogetx" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <meta-data
@@ -93,24 +93,24 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.intent.action.VIEW" />
-                <data android:scheme="bitcoin" />
-                <data android:scheme="BITCOIN" />
+                <data android:scheme="dogecoin" />
+                <data android:scheme="DOGECOIN" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
             <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-                <data android:scheme="bitcoin" />
+                <data android:scheme="dogecoin" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.intent.action.VIEW" />
-                <data android:mimeType="application/bitcoin-paymentrequest" />
+                <data android:mimeType="application/vnd.doge.payment.request" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-                <data android:mimeType="application/bitcoin-paymentrequest" />
+                <data android:mimeType="application/vnd.doge.payment.request" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -163,7 +163,7 @@
             <intent-filter android:label="@string/import_keys_intent_filter_action">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/x-bitcoin-wallet-backup" />
+                <data android:mimeType="application/x-dogecoin-wallet-backup" />
             </intent-filter>
         </activity>
 

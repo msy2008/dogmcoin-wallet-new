@@ -144,7 +144,7 @@ public class WalletTransactionsViewModel extends AndroidViewModel {
     };
 
     public static class TransactionsLiveData extends AbstractWalletLiveData<Set<Transaction>> {
-        private static final long THROTTLE_MS = 1000;
+        private static final long THROTTLE_MS = 1500;
 
         public TransactionsLiveData(final WalletApplication application) {
             super(application, THROTTLE_MS);

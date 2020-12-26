@@ -71,8 +71,8 @@ public class Configuration {
     private static final String PREFS_KEY_LAST_BLOCKCHAIN_RESET = "last_blockchain_reset";
     private static final String PREFS_KEY_LAST_BLUETOOTH_ADDRESS = "last_bluetooth_address";
 
-    private static final int PREFS_DEFAULT_BTC_SHIFT = 3;
-    private static final int PREFS_DEFAULT_BTC_PRECISION = 2;
+    private static final int PREFS_DEFAULT_BTC_SHIFT = 0;
+    private static final int PREFS_DEFAULT_BTC_PRECISION = 4;
 
     private static final Logger log = LoggerFactory.getLogger(Configuration.class);
 
@@ -115,8 +115,13 @@ public class Configuration {
         final int shift = getBtcShift();
         final int minPrecision = shift <= 3 ? 2 : 0;
         final int decimalRepetitions = (getBtcPrecision() - minPrecision) / 2;
-        return new MonetaryFormat().shift(shift).minDecimals(minPrecision).repeatOptionalDecimals(2,
-                decimalRepetitions);
+        return new MonetaryFormat()
+                .shift(shift)
+                .minDecimals(minPrecision)
+                .repeatOptionalDecimals(2, decimalRepetitions)
+                .code(0, "DOGE")
+                .code(3, "mDOGE")
+                .code(6, "µDOGE");
     }
 
     public MonetaryFormat getMaxPrecisionFormat() {
