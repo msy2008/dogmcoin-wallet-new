@@ -179,9 +179,9 @@ public final class WalletAddressesFragment extends Fragment implements AddressBo
             new Toast(activity).toast(R.string.wallet_address_fragment_clipboard_msg);
             return true;
         } else if (itemId == R.id.wallet_addresses_context_browse) {
-            final Uri blockExplorerUri = application.getConfiguration().getBlockExplorer();
+            final Uri blockExplorerUri = Uri.parse(String.format(application.getConfiguration().getBlockExplorer(), "address"));
             log.info("Viewing address {} on {}", address, blockExplorerUri);
-            activity.startExternalDocument(Uri.withAppendedPath(blockExplorerUri, "address/" + address));
+            activity.startExternalDocument(Uri.withAppendedPath(blockExplorerUri, address.toString()));
             return true;
         } else {
             return false;

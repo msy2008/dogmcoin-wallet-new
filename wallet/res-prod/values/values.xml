@@ -4,13 +4,11 @@
     <string name="app_name_short">Dogecoin</string>
 
     <string-array name="preferences_block_explorer_values">
-        <item>https://www.blockchain.com/btc/</item>
-        <item>https://live.blockcypher.com/btc/</item>
-        <item>https://coin.cz/btc/</item>
+        <item>https://sochain.com/%s/DOGE/</item>
+        <item>https://live.blockcypher.com/doge/%s/</item>
     </string-array>
     <string-array name="preferences_block_explorer_labels">
-        <item>blockchain.info</item>
-        <item>live.blockcypher.com</item>
-        <item>coin.cz</item>
+        <item>SoChain</item>
+        <item>BlockCypher</item>
     </string-array>
 </resources>

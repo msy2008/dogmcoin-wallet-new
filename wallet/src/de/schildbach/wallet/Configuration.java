@@ -173,9 +173,9 @@ public class Configuration {
         return getTrustedPeers() != null && getTrustedPeersOnly();
     }
 
-    public Uri getBlockExplorer() {
-        return Uri.parse(prefs.getString(PREFS_KEY_BLOCK_EXPLORER,
-                res.getStringArray(R.array.preferences_block_explorer_values)[0]));
+    public String getBlockExplorer() {
+        return prefs.getString(PREFS_KEY_BLOCK_EXPLORER,
+                res.getStringArray(R.array.preferences_block_explorer_values)[0]);
     }
 
     public boolean remindBalance() {

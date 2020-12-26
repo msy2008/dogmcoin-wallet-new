@@ -140,9 +140,9 @@ public final class BlockListFragment extends Fragment implements BlockListAdapte
     public boolean onClickBlockContextMenuItem(final MenuItem item, final Sha256Hash blockHash) {
         final int itemId = item.getItemId();
         if (itemId == R.id.blocks_context_browse) {
-            final Uri blockExplorerUri = config.getBlockExplorer();
+            final Uri blockExplorerUri = Uri.parse(String.format(config.getBlockExplorer(), "block"));
             log.info("Viewing block {} on {}", blockHash, blockExplorerUri);
-            activity.startExternalDocument(Uri.withAppendedPath(blockExplorerUri, "block/" + blockHash));
+            activity.startExternalDocument(Uri.withAppendedPath(blockExplorerUri, blockHash.toString()));
             return true;
         } else {
             return false;

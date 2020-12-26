@@ -309,9 +309,9 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
             viewModel.showReportIssueDialog.setValue(new Event<>(transactionId));
             return true;
         } else if (itemId == R.id.wallet_transactions_context_browse) {
-            final Uri blockExplorerUri = config.getBlockExplorer();
+            final Uri blockExplorerUri = Uri.parse(String.format(config.getBlockExplorer(), "tx"));
             log.info("Viewing transaction {} on {}", transactionId, blockExplorerUri);
-            activity.startExternalDocument(Uri.withAppendedPath(blockExplorerUri, "tx/" + transactionId.toString()));
+            activity.startExternalDocument(Uri.withAppendedPath(blockExplorerUri, transactionId.toString()));
             return true;
         } else {
             return false;
