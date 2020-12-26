@@ -29,6 +29,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -58,7 +62,7 @@ public final class CoinGecko {
         return URL;
     }
 
-    public List<ExchangeRateEntry> parse(final BufferedSource jsonSource) throws IOException {
+    public List<ExchangeRateEntry> parse(final BufferedSource jsonSource, double conv) throws IOException {
         final JsonAdapter<Response> jsonAdapter = moshi.adapter(Response.class);
         final Response jsonResponse = jsonAdapter.fromJson(jsonSource);
         final List<ExchangeRateEntry> result = new ArrayList<>(jsonResponse.rates.size());
@@ -67,9 +71,19 @@ public final class CoinGecko {
             final ExchangeRateJson exchangeRate = entry.getValue();
             if (exchangeRate.type == Type.FIAT) {
                 try {
-                    final Fiat rate = Fiat.parseFiatInexact(symbol, exchangeRate.value);
-                    if (rate.signum() > 0)
-                        result.add(new ExchangeRateEntry(SOURCE, new ExchangeRate(rate)));
+                    final String rate = exchangeRate.value;
+                    final double btcRate = Double.parseDouble(Fiat.parseFiatInexact(symbol, rate).toPlainString());
+                    DecimalFormat df = new DecimalFormat("#.########");
+                    df.setRoundingMode(RoundingMode.HALF_UP);
+                    DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+                    dfs.setDecimalSeparator('.');
+                    dfs.setGroupingSeparator(',');
+                    df.setDecimalFormatSymbols(dfs);
+                    long val = new BigDecimal(df.format(btcRate*conv)).movePointRight(8).longValue();
+                    final Fiat dogeRate = Fiat.valueOf(symbol, val);
+
+                    if (dogeRate.signum() > 0)
+                        result.add(new ExchangeRateEntry(SOURCE, new ExchangeRate(dogeRate)));
                 } catch (final ArithmeticException x) {
                     log.warn("problem parsing {} exchange rate from {}: {}", symbol, URL, x.getMessage());
                 }

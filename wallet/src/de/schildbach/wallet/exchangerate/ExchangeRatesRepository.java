@@ -35,7 +35,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -80,6 +82,52 @@ public class ExchangeRatesRepository {
         return db.getInvalidationTracker();
     }
 
+    private void requestDogeBtcConversion(DogeConversionCallback cb) {
+        final Request.Builder request = new Request.Builder();
+        request.url("https://api.coingecko.com/api/v3/simple/price?ids=dogecoin&vs_currencies=btc");
+        final Headers.Builder headers = new Headers.Builder();
+        headers.add("User-Agent", userAgent);
+        headers.add("Accept", "application/json");
+        request.headers(headers.build());
+
+        final OkHttpClient.Builder httpClientBuilder = Constants.HTTP_CLIENT.newBuilder();
+        httpClientBuilder.connectionSpecs(Collections.singletonList(ConnectionSpec.RESTRICTED_TLS));
+        final Call call = httpClientBuilder.build().newCall(request.build());
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                log.warn("problem fetching doge btc conversion", e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    if (response.isSuccessful()) {
+                        log.info("fetched doge btc conversion");
+                        double conv = new Moshi.Builder().build().adapter(DogeBtcConversionResponse.class).fromJson(response.body().source()).dogecoin.btc;
+                        cb.done(conv);
+                    } else {
+                        log.warn("http status {} {} when fetching doge btc conversion", response.code(), response.message());
+                    }
+                } catch (final Exception x) {
+                    log.warn("problem fetching doge btc conversion", x);
+                }
+            }
+        });
+    }
+
+    private static class DogeBtcConversionResponse {
+        public DogeBtcConversionEntry dogecoin;
+    }
+
+    private static class DogeBtcConversionEntry {
+        public double btc;
+    }
+
+    private interface DogeConversionCallback {
+        void done(double conv);
+    }
+
     private void maybeRequestExchangeRates() {
         final Stopwatch watch = Stopwatch.createStarted();
         final long now = System.currentTimeMillis();
@@ -88,40 +136,42 @@ public class ExchangeRatesRepository {
         if (lastUpdated != 0 && now - lastUpdated <= UPDATE_FREQ_MS)
             return;
 
-        final CoinGecko coinGecko = new CoinGecko(new Moshi.Builder().build());
-        final Request.Builder request = new Request.Builder();
-        request.url(coinGecko.url());
-        final Headers.Builder headers = new Headers.Builder();
-        headers.add("User-Agent", userAgent);
-        headers.add("Accept", coinGecko.mediaType().toString());
-        request.headers(headers.build());
+        requestDogeBtcConversion(conv -> {
+            final CoinGecko coinGecko = new CoinGecko(new Moshi.Builder().build());
+            final Request.Builder request = new Request.Builder();
+            request.url(coinGecko.url());
+            final Headers.Builder headers = new Headers.Builder();
+            headers.add("User-Agent", userAgent);
+            headers.add("Accept", coinGecko.mediaType().toString());
+            request.headers(headers.build());
 
-        final OkHttpClient.Builder httpClientBuilder = Constants.HTTP_CLIENT.newBuilder();
-        httpClientBuilder.connectionSpecs(Collections.singletonList(ConnectionSpec.RESTRICTED_TLS));
-        final Call call = httpClientBuilder.build().newCall(request.build());
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(final Call call, final Response response) throws IOException {
-                try {
-                    if (response.isSuccessful()) {
-                        for (final ExchangeRateEntry exchangeRate : coinGecko.parse(response.body().source()))
-                            dao.insertOrUpdate(exchangeRate);
-                        ExchangeRatesRepository.this.lastUpdated.set(now);
-                        watch.stop();
-                        log.info("fetched exchange rates from {}, took {}", coinGecko.url(), watch);
-                    } else {
-                        log.warn("http status {} {} when fetching exchange rates from {}", response.code(),
-                                response.message(), coinGecko.url());
+            final OkHttpClient.Builder httpClientBuilder = Constants.HTTP_CLIENT.newBuilder();
+            httpClientBuilder.connectionSpecs(Collections.singletonList(ConnectionSpec.RESTRICTED_TLS));
+            final Call call = httpClientBuilder.build().newCall(request.build());
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(final Call call, final Response response) throws IOException {
+                    try {
+                        if (response.isSuccessful()) {
+                            for (final ExchangeRateEntry exchangeRate : coinGecko.parse(response.body().source(), conv))
+                                dao.insertOrUpdate(exchangeRate);
+                            ExchangeRatesRepository.this.lastUpdated.set(now);
+                            watch.stop();
+                            log.info("fetched exchange rates from {}, took {}", coinGecko.url(), watch);
+                        } else {
+                            log.warn("http status {} {} when fetching exchange rates from {}", response.code(),
+                                    response.message(), coinGecko.url());
+                        }
+                    } catch (final Exception x) {
+                        log.warn("problem fetching exchange rates from " + coinGecko.url(), x);
                     }
-                } catch (final Exception x) {
+                }
+
+                @Override
+                public void onFailure(final Call call, final IOException x) {
                     log.warn("problem fetching exchange rates from " + coinGecko.url(), x);
                 }
-            }
-
-            @Override
-            public void onFailure(final Call call, final IOException x) {
-                log.warn("problem fetching exchange rates from " + coinGecko.url(), x);
-            }
+            });
         });
     }
 }
