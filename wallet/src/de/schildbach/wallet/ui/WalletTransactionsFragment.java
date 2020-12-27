@@ -21,12 +21,14 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -115,9 +117,14 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
                                 : R.string.wallet_transactions_fragment_empty_text_received));
                 emptyText.setSpan(new StyleSpan(Typeface.BOLD), 0, emptyText.length(),
                         SpannableStringBuilder.SPAN_POINT_MARK);
-                if (direction != WalletTransactionsViewModel.Direction.SENT)
+                if (direction != WalletTransactionsViewModel.Direction.SENT) {
                     emptyText.append("\n\n")
                             .append(getString(R.string.wallet_transactions_fragment_empty_text_howto));
+                    String miningWarning = getString(R.string.wallet_transactions_fragment_empty_text_warning);
+                    int prevLength = emptyText.length();
+                    emptyText.append("\n\n").append(miningWarning);
+                    emptyText.setSpan(new ForegroundColorSpan(Color.RED), prevLength, emptyText.length(), SpannableStringBuilder.SPAN_POINT_MARK);
+                }
                 if (warning == WarningType.BACKUP) {
                     final int start = emptyText.length();
                     emptyText.append("\n\n")
