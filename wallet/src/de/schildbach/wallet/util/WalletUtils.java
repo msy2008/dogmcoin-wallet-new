@@ -187,7 +187,7 @@ public class WalletUtils {
 
     public static Wallet restoreWalletFromAutoBackup(final Context context) {
         try (final InputStream is = context.openFileInput(Constants.Files.WALLET_KEY_BACKUP_PROTOBUF)) {
-            final Wallet wallet = new WalletProtobufSerializer().readWallet(is, true, null);
+            final Wallet wallet = new WalletProtobufSerializer().readWallet(Constants.NETWORK_PARAMETERS, null, WalletProtobufSerializer.parseToProto(is), true);
             if (!wallet.isConsistent())
                 throw new Error("inconsistent backup");
 
@@ -202,7 +202,7 @@ public class WalletUtils {
     public static Wallet restoreWalletFromProtobuf(final InputStream is,
             final NetworkParameters expectedNetworkParameters) throws IOException {
         try {
-            final Wallet wallet = new WalletProtobufSerializer().readWallet(is, true, null);
+            final Wallet wallet = new WalletProtobufSerializer().readWallet(Constants.NETWORK_PARAMETERS, null, WalletProtobufSerializer.parseToProto(is), true);
 
             if (!wallet.getParams().equals(expectedNetworkParameters))
                 throw new IOException("bad wallet backup network parameters: " + wallet.getParams().getId());

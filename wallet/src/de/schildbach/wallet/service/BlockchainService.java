@@ -615,7 +615,7 @@ public class BlockchainService extends LifecycleService {
                 }
 
                 final Configuration.SyncMode syncMode = config.getSyncMode();
-                peerGroup = new PeerGroup(Constants.NETWORK_PARAMETERS, blockChain);
+                peerGroup = new NonWitnessPeerGroup(Constants.NETWORK_PARAMETERS, blockChain);
                 log.info("creating {}, sync mode: {}", peerGroup, syncMode);
                 peerGroup.setDownloadTxDependencies(0); // recursive implementation causes StackOverflowError
                 peerGroup.addWallet(wallet);
@@ -658,9 +658,9 @@ public class BlockchainService extends LifecycleService {
                 } else {
                     log.info("adding random peers from the P2P network");
                     if (syncMode == Configuration.SyncMode.CONNECTION_FILTER)
-                        peerGroup.setRequiredServices(VersionMessage.NODE_BLOOM | VersionMessage.NODE_WITNESS);
+                        peerGroup.setRequiredServices(VersionMessage.NODE_BLOOM);
                     else
-                        peerGroup.setRequiredServices(VersionMessage.NODE_WITNESS);
+                        peerGroup.setRequiredServices(0);
                 }
 
                 // start peergroup

@@ -176,7 +176,7 @@ public class WalletApplication extends Application {
                 if (walletFile.exists()) {
                     try (final FileInputStream walletStream = new FileInputStream(walletFile)) {
                         final Stopwatch watch = Stopwatch.createStarted();
-                        wallet = new WalletProtobufSerializer().readWallet(walletStream);
+                        wallet = new WalletProtobufSerializer().readWallet(Constants.NETWORK_PARAMETERS, null, WalletProtobufSerializer.parseToProto(walletStream), false);
                         watch.stop();
 
                         if (!wallet.getParams().equals(Constants.NETWORK_PARAMETERS))
