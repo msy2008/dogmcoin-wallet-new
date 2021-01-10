@@ -289,7 +289,7 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
         menu.findItem(R.id.wallet_transactions_context_show_qr)
                 .setVisible(txSerialized.length < SHOW_QR_THRESHOLD_BYTES);
         menu.findItem(R.id.wallet_transactions_context_raise_fee)
-                .setVisible(RaiseFeeDialogFragment.feeCanLikelyBeRaised(wallet, tx));
+                .setVisible(false/*RaiseFeeDialogFragment.feeCanLikelyBeRaised(wallet, tx)*/);
         menu.findItem(R.id.wallet_transactions_context_browse).setVisible(Constants.ENABLE_BROWSE);
     }
 
