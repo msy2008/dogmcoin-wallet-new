@@ -275,7 +275,7 @@ public class BlockchainService extends LifecycleService {
 
         @Override
         public void onPeerConnected(final Peer peer, final int peerCount) {
-            postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS / 2);
+            postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS);
             changed(peerCount);
         }
 
@@ -304,7 +304,7 @@ public class BlockchainService extends LifecycleService {
 
         @Override
         public void onChainDownloadStarted(final Peer peer, final int blocksToDownload) {
-            postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS / 2);
+            postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS);
             this.blocksToDownload.set(blocksToDownload);
             if (blocksToDownload >= CONNECTIVITY_NOTIFICATION_PROGRESS_MIN_BLOCKS) {
                 config.maybeIncrementBestChainHeightEver(blockChain.getChainHead().getHeight() + blocksToDownload);
@@ -329,7 +329,7 @@ public class BlockchainService extends LifecycleService {
         public void run() {
             lastMessageTime.set(System.currentTimeMillis());
 
-            postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS / 2);
+            postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS);
             final int blocksToDownload = this.blocksToDownload.get();
             final int blocksLeft = this.blocksLeft.get();
             if (blocksToDownload >= CONNECTIVITY_NOTIFICATION_PROGRESS_MIN_BLOCKS)
@@ -668,7 +668,7 @@ public class BlockchainService extends LifecycleService {
                 peerGroup.startAsync();
                 peerGroup.startBlockChainDownload(blockchainDownloadListener);
 
-                postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS / 2);
+                postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS);
             }
 
             private void shutdown() {
@@ -687,7 +687,7 @@ public class BlockchainService extends LifecycleService {
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         super.onStartCommand(intent, flags, startId);
-        postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS);
+        postDelayedStopSelf(DateUtils.MINUTE_IN_MILLIS * 2);
 
         if (intent != null) {
             final String action = intent.getAction();

@@ -42,6 +42,7 @@ import de.schildbach.wallet.ui.send.SendCoinsActivity;
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.utils.Fiat;
+import org.libdohj.params.AbstractDogecoinParams;
 
 /**
  * @author Andreas Schildbach
@@ -120,7 +121,7 @@ public final class WalletBalanceFragment extends Fragment {
 
         viewBalanceLocal = view.findViewById(R.id.wallet_balance_local);
         viewBalanceLocal.setInsignificantRelativeSize(1);
-        viewBalanceLocal.setStrikeThru(!Constants.NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET));
+        viewBalanceLocal.setStrikeThru(!Constants.NETWORK_PARAMETERS.getId().equals(AbstractDogecoinParams.ID_DOGE_MAINNET));
 
         viewProgress = view.findViewById(R.id.wallet_balance_progress);
     }
