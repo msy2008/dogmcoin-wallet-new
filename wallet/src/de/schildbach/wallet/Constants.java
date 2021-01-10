@@ -158,6 +158,8 @@ public final class Constants {
 
     public static final BaseEncoding HEX = BaseEncoding.base16().lowerCase();
 
+    public static final String BLOCKCYPHER_API_URL = "https://api.blockcypher.com/v1/doge/main/addrs/";
+
     public static final String SOURCE_URL = "https://github.com/langerhans/dogecoin-wallet-new";
     public static final String BINARY_URL = "https://github.com/langerhans/dogecoin-wallet-new/releases/latest";
 

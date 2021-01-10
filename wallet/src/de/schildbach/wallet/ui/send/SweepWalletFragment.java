@@ -71,8 +71,13 @@ import org.bitcoinj.core.TransactionOutput;
 import org.bitcoinj.core.UTXO;
 import org.bitcoinj.core.VerificationException;
 import org.bitcoinj.crypto.BIP38PrivateKey;
+import org.bitcoinj.script.Script;
 import org.bitcoinj.utils.MonetaryFormat;
 import org.bitcoinj.utils.Threading;
+import org.bitcoinj.wallet.BasicKeyChain;
+import org.bitcoinj.wallet.DeterministicKeyChain;
+import org.bitcoinj.wallet.DeterministicSeed;
+import org.bitcoinj.wallet.KeyChainGroup;
 import org.bitcoinj.wallet.SendRequest;
 import org.bitcoinj.wallet.Wallet;
 import org.bitcoinj.wallet.Wallet.BalanceType;
@@ -410,8 +415,8 @@ public class SweepWalletFragment extends Fragment {
                 walletToSweep.clearTransactions(0);
                 for (final Transaction tx : fakeTxns.values())
                     walletToSweep.addWalletTransaction(new WalletTransaction(WalletTransaction.Pool.UNSPENT, tx));
-                log.info("built wallet to sweep:\n{}",
-                        walletToSweep.toString(false, false, null, true, false, null));
+                //log.info("built wallet to sweep:\n{}",
+                //        walletToSweep.toString(false, false, null, true, false, null));
                 viewModel.walletToSweep.setValue(walletToSweep);
             }
 
