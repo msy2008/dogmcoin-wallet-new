@@ -79,8 +79,7 @@ public final class CoinGecko {
                     dfs.setDecimalSeparator('.');
                     dfs.setGroupingSeparator(',');
                     df.setDecimalFormatSymbols(dfs);
-                    long val = new BigDecimal(df.format(btcRate*conv)).movePointRight(8).longValue();
-                    final Fiat dogeRate = Fiat.valueOf(symbol, val);
+                    final Fiat dogeRate = Fiat.parseFiatInexact(symbol, df.format(btcRate*conv));
 
                     if (dogeRate.signum() > 0)
                         result.add(new ExchangeRateEntry(SOURCE, new ExchangeRate(dogeRate)));
