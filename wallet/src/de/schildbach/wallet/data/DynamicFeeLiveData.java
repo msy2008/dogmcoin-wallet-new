@@ -87,7 +87,8 @@ public class DynamicFeeLiveData extends LiveData<Map<FeeCategory, Coin>> {
     private Map<FeeCategory, Coin> loadInBackground() {
         try {
             final Map<FeeCategory, Coin> staticFees = parseFees(assets.open(Constants.Files.FEES_ASSET));
-            fetchDynamicFees(dynamicFeesUrl, tempFile, dynamicFeesFile, userAgent);
+            // DOGE: never fetch dynamic fees from remote
+            //fetchDynamicFees(dynamicFeesUrl, tempFile, dynamicFeesFile, userAgent);
             if (!dynamicFeesFile.exists())
                 return staticFees;
 

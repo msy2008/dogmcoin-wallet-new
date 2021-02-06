@@ -27,6 +27,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import de.schildbach.wallet.R;
 import de.schildbach.wallet.WalletApplication;
@@ -72,6 +75,8 @@ public final class AboutFragment extends PreferenceFragment {
         this.packageManager = activity.getPackageManager();
     }
 
+    private int counter = 0;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +88,19 @@ public final class AboutFragment extends PreferenceFragment {
         versionPref.setSummary(WalletApplication.versionLine(packageInfo));
         versionPref.setOnPreferenceClickListener(preference -> {
             new ApkHashFragment().show(getFragmentManager(), null);
+            return true;
+        });
+        findPreference("about_copyright").setOnPreferenceClickListener(pref -> {
+            counter++;
+            if (counter >= 7) {
+                Toast toast = new Toast(getContext());
+                ImageView view = new ImageView(getContext());
+                view.setImageResource(R.mipmap.ic_pink);
+                toast.setView(view);
+                toast.setDuration(Toast.LENGTH_SHORT);
+                toast.show();
+                counter = 0;
+            }
             return true;
         });
 

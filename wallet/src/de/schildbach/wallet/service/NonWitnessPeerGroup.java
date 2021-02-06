@@ -49,8 +49,10 @@ public class NonWitnessPeerGroup extends PeerGroup {
             if (!versionMessage.hasBlockChain())
                 continue;
             final long peerHeight = peer.getBestHeight();
-            if (peerHeight < mostCommonChainHeight || peerHeight > mostCommonChainHeight + 1)
+            if (peer.getPeerBlockHeightDifference() < 0)
                 continue;
+            //if (peerHeight < mostCommonChainHeight || peerHeight > mostCommonChainHeight + 1)
+            //   continue;
             candidates.add(peer);
         }
         if (candidates.isEmpty())

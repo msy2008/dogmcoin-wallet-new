@@ -551,6 +551,7 @@ public final class SendCoinsFragment extends Fragment {
                 && viewModel.paymentIntent.mayEditAmount() && viewModel.balance.getValue() != null);
 
         final MenuItem feeCategoryAction = menu.findItem(R.id.send_coins_options_fee_category);
+        feeCategoryAction.setVisible(false); //DOGE: We only have static fees
         feeCategoryAction.setEnabled(viewModel.state == SendCoinsViewModel.State.INPUT);
         if (viewModel.feeCategory == FeeCategory.ECONOMIC)
             menu.findItem(R.id.send_coins_options_fee_category_economic).setChecked(true);

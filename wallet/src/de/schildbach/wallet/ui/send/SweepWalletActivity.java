@@ -37,7 +37,9 @@ public final class SweepWalletActivity extends AbstractWalletActivity {
 
     public static void start(final Context context, final PrefixedChecksummedBytes key) {
         final Intent intent = new Intent(context, SweepWalletActivity.class);
-        intent.putExtra(INTENT_EXTRA_KEY, key);
+        // This crashes. For reasons.
+        // Jokes aside though this is cause PrefixedChecksummedBytes fails to deserialize properly for altcoins.
+        //intent.putExtra(INTENT_EXTRA_KEY, key);
         context.startActivity(intent);
     }
 

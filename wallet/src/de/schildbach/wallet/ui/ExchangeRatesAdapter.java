@@ -239,7 +239,7 @@ public class ExchangeRatesAdapter extends ListAdapter<ExchangeRatesAdapter.ListI
         }
         if (fullBind || changes.contains(ChangeType.RATE)) {
             holder.rateView.setFormat(Constants.LOCAL_FORMAT.postfixCode().code(0, "/1k"));
-            holder.rateView.setAmount(listItem.baseRateAsFiat.divide(10));
+            holder.rateView.setAmount(listItem.baseRateAsFiat.multiply(1000));
             holder.walletView.setFormat(Constants.LOCAL_FORMAT);
             if (listItem.balanceAsFiat != null) {
                 holder.walletView.setAmount(listItem.balanceAsFiat);
