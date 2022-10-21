@@ -77,13 +77,13 @@ public class ExchangeRatesProvider extends ContentProvider {
     @Nullable
     private Map<String, ExchangeRate> exchangeRates = null;
     private long lastUpdated = 0;
-    private double dogeBtcConversion = -1;
+    private double dogmBtcConversion = -1;
 
     private static final HttpUrl BITCOINAVERAGE_URL = HttpUrl
             .parse("https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC");
     private static final String BITCOINAVERAGE_SOURCE = "BitcoinAverage.com";
     private static final HttpUrl COINMARKETCAP_URL = HttpUrl
-            .parse("https://api.coinmarketcap.com/v1/ticker/dogecoin/");
+            .parse("https://api.coinmarketcap.com/v1/ticker/dogmcoin/");
     private static final String COINMARKETCAP_SOURCE = "coinmarketcap.com";
 
     private static final long UPDATE_FREQ_MS = 10 * DateUtils.MINUTE_IN_MILLIS;
@@ -125,24 +125,24 @@ public class ExchangeRatesProvider extends ContentProvider {
 
         if (!offline && (lastUpdated == 0 || now - lastUpdated > UPDATE_FREQ_MS)) {
             double newDogeBtcConversion = -1;
-            if ((dogeBtcConversion == -1))
+            if ((dogmBtcConversion == -1))
                 newDogeBtcConversion = requestDogeBtcConversion();
 
             if (newDogeBtcConversion != -1)
-                dogeBtcConversion = newDogeBtcConversion;
+                dogmBtcConversion = newDogeBtcConversion;
 
-            if (dogeBtcConversion == -1)
+            if (dogmBtcConversion == -1)
                 return null;
 
             Map<String, ExchangeRate> newExchangeRates = null;
             if (newExchangeRates == null)
-                newExchangeRates = requestExchangeRates(dogeBtcConversion);
+                newExchangeRates = requestExchangeRates(dogmBtcConversion);
 
             if (newExchangeRates != null) {
-                double mBTCRate = dogeBtcConversion*1000;
+                double mBTCRate = dogmBtcConversion*1000;
                 String strmBTCRate = String.format(Locale.US, "%.4f", mBTCRate).replace(',', '.');
                 newExchangeRates.put("mBTC", new ExchangeRate(new org.bitcoinj.utils.ExchangeRate(Fiat.parseFiat("mBTC", strmBTCRate)), COINMARKETCAP_SOURCE));
-                newExchangeRates.put("DOGE", new ExchangeRate(new org.bitcoinj.utils.ExchangeRate(Fiat.parseFiat("DOGE", "1")), "priceofdoge.com"));
+                newExchangeRates.put("DOGM", new ExchangeRate(new org.bitcoinj.utils.ExchangeRate(Fiat.parseFiat("DOGM", "1")), "priceofdogm.com"));
 
                 exchangeRates = newExchangeRates;
                 lastUpdated = now;
@@ -153,7 +153,7 @@ public class ExchangeRatesProvider extends ContentProvider {
             }
         }
 
-        if (exchangeRates == null || dogeBtcConversion == -1)
+        if (exchangeRates == null || dogmBtcConversion == -1)
             return null;
 
         final MatrixCursor cursor = new MatrixCursor(
@@ -247,7 +247,7 @@ public class ExchangeRatesProvider extends ContentProvider {
         throw new UnsupportedOperationException();
     }
 
-    private Map<String, ExchangeRate> requestExchangeRates(double dogeBtcConversion) {
+    private Map<String, ExchangeRate> requestExchangeRates(double dogmBtcConversion) {
         final Stopwatch watch = Stopwatch.createStarted();
 
         final Request.Builder request = new Request.Builder();
@@ -280,11 +280,11 @@ public class ExchangeRatesProvider extends ContentProvider {
                                 dfs.setDecimalSeparator('.');
                                 dfs.setGroupingSeparator(',');
                                 df.setDecimalFormatSymbols(dfs);
-                                final Fiat dogeRate = parseFiatInexact(fiatCurrencyCode, df.format(btcRate*dogeBtcConversion));
+                                final Fiat dogmRate = parseFiatInexact(fiatCurrencyCode, df.format(btcRate*dogmBtcConversion));
 
-                                if (dogeRate.signum() > 0)
+                                if (dogmRate.signum() > 0)
                                     rates.put(fiatCurrencyCode, new ExchangeRate(
-                                            new org.bitcoinj.utils.ExchangeRate(dogeRate), BITCOINAVERAGE_SOURCE));
+                                            new org.bitcoinj.utils.ExchangeRate(dogmRate), BITCOINAVERAGE_SOURCE));
                             } catch (final IllegalArgumentException x) {
                                 log.warn("problem fetching {} exchange rate from {}: {}", currencyCode,
                                         BITCOINAVERAGE_URL, x.getMessage());
