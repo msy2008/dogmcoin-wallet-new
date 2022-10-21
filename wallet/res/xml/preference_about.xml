@@ -5,7 +5,7 @@
         android:key="about_version"
         android:title="@string/about_version_title" />
     <Preference
-        android:summary="© 2011-2018, the Bitcoin Wallet developers\n© 2013-2018, the Dogecoin Wallet developers"
+        android:summary="© 2011-2018, the Bitcoin developers\n© 2013-2018, the Dogecoin developers\n© 2022-2022, the Dogmcoin developers"
         android:title="@string/about_copyright_title" />
     <Preference
         android:key="about_license"
@@ -17,19 +17,19 @@
     </Preference>
     <Preference
         android:key="about_license"
-        android:summary="https://github.com/langerhans/dogecoin-wallet-new/wiki/PrivacyPolicy"
+        android:summary="https://github.com/msy2008/dogmcoin-wallet-new/wiki/PrivacyPolicy"
         android:title="@string/about_privacy_title" >
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="https://github.com/langerhans/dogecoin-wallet-new/wiki/PrivacyPolicy" />
+            android:data="https://github.com/msy2008/dogmcoin-wallet-new/wiki/PrivacyPolicy" />
     </Preference>
     <Preference
         android:key="about_source"
-        android:summary="https://github.com/langerhans/dogecoin-wallet-new"
+        android:summary="https://github.com/msy2008/dogmcoin-wallet-new"
         android:title="@string/about_source_title" >
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="https://github.com/langerhans/dogecoin-wallet-new" />
+            android:data="https://github.com/msy2008/dogmcoin-wallet-new" />
     </Preference>
     <Preference
         android:key="about_market_app"
@@ -45,20 +45,20 @@
     </Preference>
     <Preference
         android:key="about_twitter"
-        android:summary="\@langer_hans"
+        android:summary="\@msy2008"
         android:title="Twitter" >
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="https://twitter.com/#!/langer_hans" />
+            android:data="https://twitter.com/#!/msy2008" />
     </Preference>
 
     <PreferenceCategory android:title="@string/about_category_credits" >
         <Preference
             android:key="about_credits_bitcoinj"
-            android:summary="https://github.com/dogecoin/libdohj" >
+            android:summary="https://github.com/dogmcoin/libdohj" >
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/dogecoin/libdohj" />
+                android:data="https://github.com/dogmcoin/libdohj" />
         </Preference>
         <Preference
             android:key="about_credits_zxing"
