@@ -78,10 +78,10 @@ public final class RequestWalletBalanceTask {
             public void run() {
                 Context.propagate(Constants.CONTEXT);
 
-                // Use either dogechain or chain.so
+                // Use either dogmchain or chain.so
                 List<String> urls = new ArrayList<String>(2);
                 urls.add(Constants.BLOCKCYPHER_API_URL);
-                //urls.add(Constants.DOGECHAIN_API_URL); // Seems unreliable too now
+                //urls.add(Constants.DOGMCHAIN_API_URL); // Seems unreliable too now
                 //urls.add(Constants.CHAINSO_API_URL); // inactive for now
                 Collections.shuffle(urls, new Random(System.nanoTime()));
 

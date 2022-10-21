@@ -252,7 +252,7 @@ public final class WalletAddressFragment extends Fragment implements NfcAdapter.
                 currentAddressQrAddress = new AddressAndLabel(currentAddress, config.getOwnName());
 
                 final String addressStr = BitcoinURI.convertToBitcoinURI(currentAddressQrAddress.address, null,
-                        currentAddressQrAddress.label, null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");
+                        currentAddressQrAddress.label, null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogmcoin");
 
                 currentAddressQrBitmap = new BitmapDrawable(getResources(), Qr.bitmap(addressStr));
                 currentAddressQrBitmap.setFilterBitmap(false);

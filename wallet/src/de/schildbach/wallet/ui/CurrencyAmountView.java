@@ -120,13 +120,13 @@ public final class CurrencyAmountView extends FrameLayout {
     }
 
     public void setCurrencySymbol(@Nullable final String currencyCode) {
-        if ("DOGE".equals(currencyCode)) {
+        if ("DOGM".equals(currencyCode)) {
             currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_btc);
             localCurrencyCode = null;
-        } else if ("mDOGE".equals(currencyCode)) {
+        } else if ("mDOGM".equals(currencyCode)) {
             currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_mbtc);
             localCurrencyCode = null;
-        } else if ("µDOGE".equals(currencyCode)) {
+        } else if ("µDOGM".equals(currencyCode)) {
             currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_ubtc);
             localCurrencyCode = null;
         } else if (currencyCode != null) // fiat

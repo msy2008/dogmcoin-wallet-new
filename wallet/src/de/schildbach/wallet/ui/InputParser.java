@@ -47,7 +47,7 @@ import org.bitcoinj.protocols.payments.PaymentProtocolException;
 import org.bitcoinj.protocols.payments.PaymentSession;
 import org.bitcoinj.uri.BitcoinURI;
 import org.bitcoinj.uri.BitcoinURIParseException;
-import org.libdohj.params.AbstractDogecoinParams;
+import org.libdohj.params.AbstractDogmcoinParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +79,7 @@ public abstract class InputParser {
 
         @Override
         public void parse() {
-            if (input.startsWith("DOGECOIN:-")) {
+            if (input.startsWith("DOGMCOIN:-")) {
                 try {
                     final byte[] serializedPaymentRequest = Qr.decodeBinary(input.substring(9));
 
@@ -97,7 +97,7 @@ public abstract class InputParser {
 
                     error(R.string.input_parser_invalid_paymentrequest, x.getMessage());
                 }
-            } else if (input.startsWith("dogecoin:")) {
+            } else if (input.startsWith("dogmcoin:")) {
                 try {
                     final BitcoinURI bitcoinUri = new BitcoinURI(Constants.NETWORK_PARAMETERS, input);
                     final Address address = bitcoinUri.getAddress();
@@ -106,7 +106,7 @@ public abstract class InputParser {
 
                     handlePaymentIntent(PaymentIntent.fromBitcoinUri(bitcoinUri));
                 } catch (final BitcoinURIParseException x) {
-                    log.info("got invalid dogecoin uri: '" + input + "'", x);
+                    log.info("got invalid dogmcoin uri: '" + input + "'", x);
 
                     error(R.string.input_parser_invalid_bitcoin_uri, input);
                 }
@@ -367,10 +367,10 @@ public abstract class InputParser {
     private static final Pattern PATTERN_BITCOIN_ADDRESS = Pattern
             .compile("[" + new String(Base58.ALPHABET) + "]{20,40}");
     private static final Pattern PATTERN_DUMPED_PRIVATE_KEY_UNCOMPRESSED = Pattern
-            .compile((Constants.NETWORK_PARAMETERS.getId().equals(AbstractDogecoinParams.ID_DOGE_MAINNET) ? "6" : "9") + "["
+            .compile((Constants.NETWORK_PARAMETERS.getId().equals(AbstractDogmcoinParams.ID_DOGM_MAINNET) ? "6" : "9") + "["
                     + new String(Base58.ALPHABET) + "]{50}");
     private static final Pattern PATTERN_DUMPED_PRIVATE_KEY_COMPRESSED = Pattern
-            .compile((Constants.NETWORK_PARAMETERS.getId().equals(AbstractDogecoinParams.ID_DOGE_MAINNET) ? "[Q]" : "c") + "["
+            .compile((Constants.NETWORK_PARAMETERS.getId().equals(AbstractDogmcoinParams.ID_DOGM_MAINNET) ? "[Q]" : "c") + "["
                     + new String(Base58.ALPHABET) + "]{51}");
     private static final Pattern PATTERN_BIP38_PRIVATE_KEY = Pattern
             .compile("6P" + "[" + new String(Base58.ALPHABET) + "]{56}");

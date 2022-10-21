@@ -327,12 +327,12 @@ public final class SendingAddressesFragment extends FancyListFragment
     }
 
     private void handleShowQr(final String address, final String label) {
-        final String uri = BitcoinURI.convertToBitcoinURI(Constants.NETWORK_PARAMETERS, address, null, label, null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");
+        final String uri = BitcoinURI.convertToBitcoinURI(Constants.NETWORK_PARAMETERS, address, null, label, null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogmcoin");
         BitmapFragment.show(getFragmentManager(), Qr.bitmap(uri));
     }
 
     private void handleCopyToClipboard(final String address) {
-        clipboardManager.setPrimaryClip(ClipData.newPlainText("Dogecoin address", address));
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("Dogmcoin address", address));
         log.info("sending address copied to clipboard: {}", address.toString());
         new Toast(activity).toast(R.string.wallet_address_fragment_clipboard_msg);
     }

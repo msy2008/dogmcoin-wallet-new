@@ -523,7 +523,7 @@ public final class SendCoinsFragment extends Fragment {
             final String mimeType = intent.getType();
 
             if ((Intent.ACTION_VIEW.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
-                    && intentUri != null && "dogecoin".equals(scheme)) {
+                    && intentUri != null && "dogmcoin".equals(scheme)) {
                 initStateFromBitcoinUri(intentUri);
             } else if ((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
                     && PaymentProtocol.MIMETYPE_PAYMENTREQUEST.equals(mimeType)) {
@@ -797,7 +797,7 @@ public final class SendCoinsFragment extends Fragment {
         emptyAction.setEnabled(state == State.INPUT && paymentIntent.mayEditAmount());
 
         final MenuItem feeCategoryAction = menu.findItem(R.id.send_coins_options_fee_category);
-        feeCategoryAction.setVisible(false); // DOGE
+        feeCategoryAction.setVisible(false); // DOGM
         feeCategoryAction.setEnabled(state == State.INPUT);
         if (feeCategory == FeeCategory.ECONOMIC)
             menu.findItem(R.id.send_coins_options_fee_category_economic).setChecked(true);

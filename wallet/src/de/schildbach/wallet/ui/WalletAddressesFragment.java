@@ -210,12 +210,12 @@ public final class WalletAddressesFragment extends FancyListFragment {
             }
 
             private void handleShowQr(final Address address) {
-                final String uri = BitcoinURI.convertToBitcoinURI(address, null, config.getOwnName(), null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogecoin");
+                final String uri = BitcoinURI.convertToBitcoinURI(address, null, config.getOwnName(), null).replace(AbstractBitcoinNetParams.BITCOIN_SCHEME, "dogmcoin");
                 BitmapFragment.show(getFragmentManager(), Qr.bitmap(uri));
             }
 
             private void handleCopyToClipboard(final Address address) {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText("Dogecoin address", address.toBase58()));
+                clipboardManager.setPrimaryClip(ClipData.newPlainText("Dogmcoin address", address.toBase58()));
                 log.info("wallet address copied to clipboard: {}", address);
                 new Toast(activity).toast(R.string.wallet_address_fragment_clipboard_msg);
             }
